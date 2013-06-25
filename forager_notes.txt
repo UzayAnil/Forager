@@ -1,0 +1,58 @@
+states: fix death(FIXED!), make sure staggered is working (done), consider temporarily removing unconscious for thursday
+
+add getters and setters instead of modifying creature variables directly; combine this with decorators for python fanciness(done)
+
+perception pseudo-code
+perception check every turn, notify the world, the world notifies all observers, each observer checks if it is within line of sight of the perceiving creature, if it is in line of sight, if it is sneaking, check stealth, if it fails, draw the creature
+
+stealth pseudo-code
+creature attempts to use stealth, change move to sneak, notify the world, the world notifies all observers, each observer checks if it has line of sight on the creature attempting to sneak, if the sneaker is in line of sight, the perceiver makes a perception check, if the perceiver wins nothing happens, if the sneaker wins and the perceiver was human it tells the world to stop drawing it, if the perceiver was not a human do nothing
+
+reimplement combat: figure out a way for the wolves to move toward deer or humans when they see them, similarly make deer run away when they see anything, have them start standing still on the map, later figure out some basic movement patterns
+
+Combat: (in progress)
+Wolf starts in hunt state where it is sneaking and attempting to perceive targets. If wolf perceives a target, change to attack state, attack state changes move to run and sets wolf's possible_move to the target position. Move and redraw the wolf until distance between wolf and target is within the wolf's attack distance, set wolf's possible_move to current position. The wolf attacks and keeps attacking until the target is dead or moves away. If the target is no longer in attack range move back into attack range and attack again. If target is dead or hidden change to hunt state.
+Once in hunt state, if move is not sneak, change move to sneak. Move to a random position within move distance.
+
+if deer perceives a target, change move to run, sets its position to opposite direction from the target and runs to that new position
+if deer does not perceive a target, do nothing
+
+
+on wolf's turn: (done)
+notify the world, wolf notifies observers, observers report back if they are in the wolf's attack range (may be an issue is there is more than one creature in attack range)
+
+Forager has continued to get better this week. I continued to add more states to my program. I also added several visitors. These both were part of finally graphically implementing combat between wolves and the player.
+
+It's been weeks since wolves and humans fought, so it was exciting to get that working again. It took so long to get here, because movement took some time for me to master. I started in the GameWorld. That class has many important methods for movement and action. The world decides if a creature is a human or not and calls the appropriate methods. The creature action method decides whether to move regularly, make an attack move, or attack depending on if something is within line or sight or attack range. Then the same action and move methods I wrote for player actions and moves is called.
+
+As part of this new creature action method I included a use of the state pattern and the visitor pattern combined. I used the state pattern to separate out two different ways of calculating the creatures' move position. When they move into attack position, they change to a state that keeps them just at their attack range away from an target. When they move normally, they go as far as they can toward some end goal. In either case, they cannot move faster than their speed.
+
+For the visitor pattern, I made sure my new move position calculator was loosely coupled to the world and added some sounds during attacks. As I was creating the creature action move position states I described above, I wanted and continue to want to find way to separate out functionality into visitors. I really like how this pattern can bring complexity without too much modification to the original classes. I decided to use the visitor pattern to set the states. Where I might have just directly change the state, I move that method into the Visitor. Also with the visitor pattern, I have some visitors play audio of a growl when the wolf attacks and the human makes some random attack noise. In the first case, the class calls the visitor on itself by calling its own accept visitor method. In the second case, the attack.execute method calls the creature's accept visitor method.
+
+In the process of writing the wolf's combat logic, I started using a better way to judge distance. When I originally worked on the logic for deciding when a click is an attack, I created a system that judged whether an attack was in a certain square. This works fine and I don't plan on changing it. When I started working on something similar for the wolf, I wanted to use the distance method I had already been using for other things, instead of using the range function.
+
+Unfortunately, I did not get many of my goals from last week accomplished. I have yet to create any sort of item system. This system, when it is completed, will be the basis for creating many other interactive objects for use by humans and other creatures. For next week, I will try to get some of this item system in place. I need to start by creating new immobile objects, then I need to get all immobiles to respond to notifications. This will add items to the player's inventory. I would like to create a window you can bring up to graphically display this inventory. Once all that is built, I want to implement hunger and eating. Then, crafting. At some point in there, I should get the deer eating plants and being eaten by wolves.
+
+
+(not used)
+Switch between sneak state and attack state:
+Start out in sneak state
+if other creatures are within move distance + attack range:
+switch to attack state
+elif state is not sneak state:
+switch to sneak state
+
+
+** Wolf attacks after I've moved away, if it attacked the previous round. Probably need to set attack boolean to false somewhere.
+
+
+
+get ready for the visitor pattern by creating an inventory screen that displays elements from the inventory list.
+
+make a crafting interface when you click on the fire: list out crafting recipes
+
+survival check to harvest wood or chert
+
+add edible plants: generic ones like tuber, mushroom, greens, berries, nuts?
+
+add birds (ducks)
