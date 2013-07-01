@@ -28,11 +28,11 @@ class StartWindow(object):
         self._frame = tk.Frame(self.top)
         self._frame.grid(padx=10, pady=10)
 
-        self._canvas.create_window(self.center_width, self.center_height + 50, width=240, height=80,
+        self._canvas.create_window(self.center_width, self.center_height + 50, width=235, height=80,
                                    anchor=tk.CENTER, window=self._frame)
 
         self._message = tk.Message(self._frame, justify=tk.CENTER, width=240,
-                                   text="Welcome to Forager1, a turn-based game of hunting and gathering.")
+                                   text="Welcome to Forager, a turn-based game of hunting and gathering.")
         self._message.grid()
 
         self._start_button = tk.Button(self._frame, text="Start", command=self.start_button)
