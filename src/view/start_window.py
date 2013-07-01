@@ -9,7 +9,7 @@ class StartWindow(object):
         self.interface = interface
         self.world = world
         self.top = tk.Toplevel(self.root)
-        self.top.title("Welcome to Forager1")
+        self.top.title("Welcome to Forager")
 
         self.screen_width = self.root.winfo_screenwidth()
         self.screen_height = self.root.winfo_screenheight()
