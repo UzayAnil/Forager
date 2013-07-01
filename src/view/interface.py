@@ -7,7 +7,7 @@ class Interface(object):
     def __init__(self, width=2560, height=2560, game_world=None, **kwargs):
         super(Interface, self).__init__(**kwargs)
         self._root = tk.Tk()
-        self.title = self._root.title("Forager1")
+        self.title = self._root.title("Forager")
         self._world = None
 
         # Building the scrollbars
@@ -33,7 +33,7 @@ class Interface(object):
         self._root.grid_columnconfigure(0, weight=1)
         self._root.grid_rowconfigure(0, weight=1)
 
-        # Bind the
+        # Bind the buttons
         self._canvas.bind('<Button-1>', self.click_handler)
         self._canvas.bind('<Motion>', self.cursor_motion)
         self._root.bind('<Key>', self.key_press)
