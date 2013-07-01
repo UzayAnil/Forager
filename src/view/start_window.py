@@ -28,7 +28,7 @@ class StartWindow(object):
         self._frame = tk.Frame(self.top)
         self._frame.grid(padx=10, pady=10)
 
-        self._canvas.create_window(self.center_width, self.center_height + 50, width=230, height=80,
+        self._canvas.create_window(self.center_width, self.center_height + 50, width=240, height=80,
                                    anchor=tk.CENTER, window=self._frame)
 
         self._message = tk.Message(self._frame, justify=tk.CENTER, width=240,
